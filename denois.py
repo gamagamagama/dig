@@ -1,3 +1,26 @@
+from PIL import Image
+from io import BytesIO
+import base64
+
+def image_to_binary_matrix(image_path, threshold=200):
+    # Open and convert image to RGB
+    with open(image_path, "rb") as imageFile:
+        img = Image.open(BytesIO(imageFile.read())).convert("RGB")
+
+    width, height = img.size
+    binary_data = []
+
+    for y in range(height):
+        row = []
+        for x in range(width):
+            r, g, b = img.getpixel((x, y))
+            grayscale = (r + g + b) / 3
+            value = 1 if grayscale < threshold else 0
+            row.append(value)
+        binary_data.append(row)
+
+    return binary_data
+
 def apply_noise_mask_tiled(main_data, noise_data):
     cleaned = []
 
