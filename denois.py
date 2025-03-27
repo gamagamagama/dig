@@ -2,6 +2,15 @@ from PIL import Image
 from io import BytesIO
 import base64
 
+def load_list_of_lists_file(filename):
+    matrix = []
+    with open(filename, "r") as f:
+        for line in f:
+            # Convert space-separated string numbers into integers
+            row = [int(val.strip()) for val in line.strip().split()]
+            matrix.append(row)
+    return matrix
+
 def image_to_binary_matrix(image_path, threshold=200):
     # Open and convert image to RGB
     with open(image_path, "rb") as imageFile:
